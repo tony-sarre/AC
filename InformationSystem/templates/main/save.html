@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% extends 'index.html' %}
+
+{% block 'content' %}
+    <p>let save a student</p>
+    <form method="post">
+        {% csrf_token %}
+        {{alert_form}}
+        <input type="save">
+    </form>
+
+    <br/>
+    <br/>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,10 @@
+django
+psycopg2
+djangorestframework
+django-filter
+dj-rest-auth
+django-cors-headers
+drf-yasg
+django-private-storage
+leaflet
+matplotlib
