@@ -13,7 +13,7 @@ from django.http import HttpResponse
 
 from InformationSystem.models import Alert, AlertList, counties
 from InformationSystem.serializers import AlertSerializer, AlertListSerializer, AlertListDetailSerializer
-from .utils import get_plot
+from .utils import get_plot, get_plot2
 
 def login(request):
     if request.method == "POST":
@@ -42,9 +42,13 @@ def home(request):
     list_alert = Alert.objects.all()
     x = [x.location for x in list_alert]
     y = [y.title for y in list_alert]
+    X = [X.due_date for X in list_alert]
+    Y = [Y.title for Y in list_alert]
     chart = get_plot(x, y)
-    context = {"liste_alert": list_alert}
-    return render(request, "index.html", context, {'chart': chart})
+    charti= get_plot2(X, Y)
+    context = {"liste_alert": list_alert, 'chart': chart, 'charti': charti}
+    #print(context)
+    return render(request, "index.html", context)
 
 
 class AlertViewSet(viewsets.ModelViewSet):

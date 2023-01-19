@@ -105,9 +105,14 @@
   <div class="row">
       {% block content %}
           {% if chart %}
-              <img scr="data:image/png; base64, {{ chart|safe}}">
+             <img src="data:image/png;base64,{{ chart|safe}}">
           {% endif %}
+          {% if charti %}
+             <img src="data:image/png;base64,{{ charti|safe}}">
+          {% endif %}
+
       {% endblock content %}
+
   </div>
 
 
@@ -145,7 +150,7 @@
 
 </div>
 
-  <!-- graphic area in html
+ graphic area in html
 <div class="col-md-4">
 <h4>Activity <br><small>Multiple Bars Chart</small></h4>
 
