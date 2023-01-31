@@ -53,7 +53,8 @@
 <body>
   <header>
 
-{% include 'nav.html' %}
+      {% include 'lateral.html'%}
+      {% include 'nav.html' %}
   </header>
   <div class="container">
       <div class="row" style="margin-left: 100px">
@@ -109,6 +110,13 @@
           {% endif %}
           {% if charti %}
              <img src="data:image/png;base64,{{ charti|safe}}">
+          {% endif %}
+           {% if image_file %}
+             <img src="data:image/png;base64,{{ image_file }}">
+
+          {% endif %}
+          {% if figdata_png%}
+              <img src="data:image/png;base64,{{ figdata_png }}"/>
           {% endif %}
 
       {% endblock content %}

@@ -3,7 +3,8 @@ from rest_framework import routers
 from InformationSystem import views
 from InformationSystem.views import AlertViewSet, AlertListViewSet
 from django.urls import path
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 router = routers.DefaultRouter()
 router.register('alerts', AlertViewSet)
@@ -20,3 +21,5 @@ urlpatterns = [
     path('Alert/<int:id>/', views.read, name='read'),
 
 ]
+
+#urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

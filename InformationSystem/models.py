@@ -18,6 +18,8 @@ class Alert(models.Model):
     Encours = models.BooleanField()
     attachment = models.FileField(upload_to='public', null=True)
     private_file = PrivateFileField(upload_to='private', null=True)
+    #labels = models.CharField(max_length=255)
+    #sizes = models.CharField(max_length=255)
 
     list = models.ForeignKey('AlertList', null=False, on_delete=models.CASCADE)
 
@@ -41,3 +43,9 @@ class counties(models.Model):
         return self.counties
     class Meta:
         verbose_name_plural = 'Counties'
+
+
+#class PieChartModel(models.Model):
+ #   labels = models.CharField(max_length=255)
+  #  sizes = models.CharField(max_length=255)
+

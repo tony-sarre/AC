@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'InformationSystem',
     'private_storage',
     'user_management',
+    'matplotlib',
 
 ]
 

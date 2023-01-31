@@ -13,7 +13,11 @@ from django.http import HttpResponse
 
 from InformationSystem.models import Alert, AlertList, counties
 from InformationSystem.serializers import AlertSerializer, AlertListSerializer, AlertListDetailSerializer
-from .utils import get_plot, get_plot2
+from .utils import get_plot, get_plot2, generate_pie_chart, plot_view
+import matplotlib
+matplotlib.use('Agg')
+from matplotlib import pyplot as plt
+import numpy as np
 
 def login(request):
     if request.method == "POST":
@@ -37,17 +41,26 @@ def logout(request):
     return redirect("login")
 
 
+
 @login_required(login_url="login")
 def home(request):
+    data={}
+    entry=vars()
     list_alert = Alert.objects.all()
     x = [x.location for x in list_alert]
     y = [y.title for y in list_alert]
     X = [X.due_date for X in list_alert]
     Y = [Y.title for Y in list_alert]
+    n=[n.title for n in list_alert]
+    for entry in list_alert:
+        data[entry.title] = entry.Encours
+    image_file = generate_pie_chart(data)
+    figdata_png = plot_view(n)
     chart = get_plot(x, y)
     charti= get_plot2(X, Y)
-    context = {"liste_alert": list_alert, 'chart': chart, 'charti': charti}
-    #print(context)
+    context = {"liste_alert": list_alert, 'chart': chart, 'charti': charti, 'image_file': image_file, 'figdata_png':figdata_png}
+    #return HttpResponse(image_file.read(), content_type="image/png")
+
     return render(request, "index.html", context)
 
 
