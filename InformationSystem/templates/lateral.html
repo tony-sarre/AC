@@ -1,16 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
+
 <head>
-    <meta charset="UTF-8">
-    <title></title>
+
+      <meta charset="utf-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <meta name="description" content="Free HTML5 Template by FREEHTML5.CO" />
+	  <meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
+	  <meta name="author" content="FREEHTML5.CO" />
+
+
+    <style>
+		/* Style the list to display as a vertical navigation bar */
+		ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			width: 200px;
+			background: lightgrey;
+			position: fixed;
+			height: 100%;
+			overflow: auto;
+		}
+
+		/* Style the links inside the navigation bar */
+		li a {
+			display: block;
+			color: black;
+			padding: 8px 16px;
+			text-decoration: none;
+		}
+
+		/* Change the background color of the active link */
+		li a.active {
+			background-color: darkgrey;
+			color: white;
+		}
+
+		/* Style the navigation bar header */
+		.nav-header {
+			background-color: purple;
+			color: white;
+			text-align: center;
+			padding: 10px;
+			font-size: 1.5em;
+		}
+	</style>
 </head>
 <body>
- <div class="container-fluid">
-  <!--<div class="row">-->
-    <div class="col-md-3">
- <div class="wrapper">
-          <div class="sidebar" data-color="purple" data-image="{% static 'assets/img/sidebar-5.jpg'%}">
+
+<div class="sidebar" data-color="purple" data-image="{ static 'assets/img/sidebar-5.jpg'}">
+	<!-- Create the navigation bar -->
+	<ul>
+		<li class="nav-header">Dashboard</li>
+		<!--<li><a class="active" href="#">Home</a></li>
+		<li><a href="#">About</a></li>
+		<li><a href="#">Contact</a></li>-->
+
+         <li class="active">
+                          <a class="active" href="{% url 'home' %}"><i class="pe-7s-graph"></i><p>Home</p></a>
+
+                      </li>
+                      <li>
+                          <a href="{% url 'dashboard' %}"><i class="pe-7s-user"></i><p>Dashboard</p></a>
+                      </li>
+                      <li>
+                          <a href="table.html"><i class="pe-7s-note2"></i><p>User Profil</p></a>
+                      </li>
+                      <li>
+                          <a href="typography.html"><i class="pe-7s-news-paper"></i><p>Evaluation</p>
+                          </a>
+                      </li>
+
+                      <li>
+                          <a href="maps.html"><i class="pe-7s-map-marker"></i><p>Maps</p></a>
+                      </li>
+                      <li>
+                          <a href="notifications.html"><i class="pe-7s-bell"></i><p>Notifications</p></a>
+                      </li>
+                       <li>
+                          <a href="icons.html"><i class="pe-7s-science"></i><p>Seting</p></a>
+                      </li>
+                      <li class="active-pro">
+                          <a href="upgrade.html"><i class="pe-7s-rocket"></i><p>Upgrade to PRO</p></a>
+                      </li>
+	</ul>
+</div>
+
+
+
+
+
+ <!--<div class="container-fluid">
+  <div class="row">
+     <aside >
+    <div class="col-md-3" >
+ <div class="wrapper">   fixed inset-y-0 flex w-[260px] flex-col
+          <div class="sidebar" data-color="purple" data-image="{ static 'assets/img/sidebar-5.jpg'}">
               <div class="sidebar-wrapper">
                   <div class="logo">
                       <a href="#" class="simple-text">Alert Criminal</a>
@@ -47,7 +135,9 @@
           </div>
  </div>
  </div>
-  <!--</div>-->
- </div>
+         </aside>
+  </div>
+ </div>-->
 </body>
+
 </html>

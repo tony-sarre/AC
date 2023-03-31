@@ -8,3 +8,4 @@ drf-yasg
 django-private-storage
 leaflet
 matplotlib
+geopy

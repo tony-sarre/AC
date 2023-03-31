@@ -1,9 +1,10 @@
 <!doctype html>
-<html>
+<html lang="EN">
 {% load static %}
 {% load leaflet_tags %}
 
   <head>
+
       {%leaflet_js%}
       {%leaflet_css%}
       <meta charset="utf-8">
@@ -26,7 +27,7 @@
     <link href="{% static 'assets/css/animate.min.css'%}" rel="stylesheet"/>
 
     <!--  Light Bootstrap Table core CSS    -->
-    <link href="{% static 'assets/css/light-bootstrap-dashboard.css?v=1.4.0'%}" rel="stylesheet"/>
+    <link href="{% static 'assets/css/light-bootstrap-dashboard.css'%}" rel="stylesheet"/>
 
       <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="{%static 'assets/css/demo.css'%}" rel="stylesheet" />
@@ -41,25 +42,40 @@
 	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 	  <script type="text/javascript" src="{% static 'js/easy-button.js' %}" ></script>
       <script type="text/javascript" src="{% static 'routing/leaflet-routing-machine.js' %}" ></script>
-
+     <script src="{% static 'js/map.js'%}" type="text/javascript"></script>
 
       <title>Alert Criminel</title>
 
       <style type="text/css">
 		#gis {width: 70%;height:300px;margin-left: 200px;}
+
+
+ /*.progress-bar {
+  background-color: #ddd;
+  position: relative;
+}
+
+.progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}*/
+
 	</style>
   </head>
 
 <body>
   <header>
 
-      {% include 'lateral.html'%}
-      {% include 'nav.html' %}
+      {% include 'nave.html' %}
   </header>
   <div class="container">
-      <div class="row" style="margin-left: 100px">
-      <div class="table-responsive table-full-width">
-          <table class="table table-hover table-striped">
+  <div class="row progress progress-bar" style="width: 80%; margin-left: 224px; margin-bottom: 30px; height: 600px; font-size: 11px; margin-top: 100px; background-color:plum; color: black">
+  <!--<div  role="progressbar" aria-valuemin="0" aria-valuemax="100">-->
+
+          <div class="table-responsive table-full-width" style=" color: black">
+          <table class="table table-hover table-striped table-bordered">
 
             <!--<table class="table table-bordered">-->
               <thead>
@@ -69,6 +85,7 @@
                 <th scope="col">Phone of plantif</th>
                   <th scope="col">Date</th>
                   <th scope="col">Location</th>
+                  <th scope="col">City_Name</th>
                 <th scope="col">Resolve</th>
                 <th scope="col">In progess</th>
                    <th scope="col">Save</th>
@@ -78,6 +95,7 @@
 
             </tr>
         </thead>
+
         <tbody>
         {% for Alert in liste_alert %}
             <tr>
@@ -87,6 +105,7 @@
                 <td>{{ Alert.phone }}</td>
                  <td>{{ Alert.due_date }}</td>
                 <td>{{ Alert.location }}</td>
+                <td>{{ Alert.city }}</td>
                 <td>{{ Alert.Resolue}}</td>
                 <td>{{ Alert.Encours }}</td>
                 <td>[<a href="{% url 'save' Alert.id %}">Save</a>]</td>
@@ -95,28 +114,32 @@
 
             </tr>
         {% endfor %}
+      <!--  <div class="progress-bar" style="height: 200px; width: 20px;">
+  <div class="progress" style="height: 50%; background-color: grey;"></div>
+</div>-->
+
         </tbody>
+
             </table>
-      </div>
-      </div>
+ </div>
       <!--</div>-->
 
-<div class="row" style="margin-bottom: 30px">  {% leaflet_map "gis"  callback="window.our_layers"%}</div>
+</div>
 
   <div class="row">
       {% block content %}
           {% if chart %}
-             <img src="data:image/png;base64,{{ chart|safe}}">
+             <img src="data:image/png;base64,{{ chart|safe}}" alt="image">
           {% endif %}
           {% if charti %}
-             <img src="data:image/png;base64,{{ charti|safe}}">
+             <img src="data:image/png;base64,{{ charti|safe}}"alt="image">
           {% endif %}
            {% if image_file %}
-             <img src="data:image/png;base64,{{ image_file }}">
+             <img src="data:image/png;base64,{{ image_file }}"  alt="image">
 
           {% endif %}
           {% if figdata_png%}
-              <img src="data:image/png;base64,{{ figdata_png }}"/>
+              <img src="data:image/png;base64,{{ figdata_png }}" alt="image"/>
           {% endif %}
 
       {% endblock content %}
@@ -179,6 +202,7 @@
 {% include 'footer.html'%}
 
 
+
     <!--Deuxieme script-->
         <script type="text/javascript">
             $(document).ready(function(){
@@ -217,7 +241,7 @@
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 
         <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
-        <script src="{%static 'assets/js/light-bootstrap-dashboard.js?v=1.4.0'%}"></script>
+        <script src="{%static 'assets/js/light-bootstrap-dashboard.js'%}"></script>
 
         <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
         <script src="{%static 'assets/js/demo.js'%}"></script>
@@ -231,33 +255,19 @@
     </script>
     <br>
     <script type="text/javascript">
-        function our_layers(map,options){
+            var mymap = L.map('map2').setView([14.497401, -14.452362], 8);
             var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 19,
                     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                });
+                }).addTo(mymap);
+             var marker1 = L.marker([14.497401, -14.452362]).addTo(mymap);
             var OpenTopoMap = L.tileLayer('http://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
                 maxZoom: 17,
                 attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
-            });
+            }).addTo(mymap);
+             var marker2 = L.marker([14.497401, -14.452362]).addTo(mymap);
             var datasets = new L.GeoJSON.AJAX("{% url 'county' %}",{
-                /*style: function colors(feature){
-                    switch(feature.properties.counties){
-                        case 'WAJIR':
-                            return{
-                                color: 'orange',
-                                fillOpacity: 0.8
-                            };
-                        break;
-                        case 'ISIOLO':
-                            return{
-                                color: 'purple',
-                                fillOpacity: 0.8
-                            };
-                        break;
 
-                    }
-                },*/
                 onEachFeature: function(feature,layer){
                     layer.bindPopup(feature.properties.counties.toString());
                 }
@@ -314,7 +324,7 @@
                 $('.leaflet-routing-container').is(':visible') ? routing.removeFrom(map) : routing.addTo(map)
               },
               'Routing'
-            ).addTo(map);
+             ).addTo(map);
 
 
             function createButton(label, container) {
@@ -322,7 +332,7 @@
                 btn.setAttribute('type', 'button');
                 btn.innerHTML = label;
                 return btn;
-            }
+
 
         }
 

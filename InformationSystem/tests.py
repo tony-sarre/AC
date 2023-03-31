@@ -13,7 +13,8 @@ class AlertTestCase(TestCase):
     DUMMY_ALERT_TITLE = 'Test Element'
 
 
-    def setUp(self):
+
+    def SetUp(self):
 
         self.alertList = AlertList()
         self.alertList.name = 'Test Alert List'
@@ -26,6 +27,7 @@ class AlertTestCase(TestCase):
         self.alertListTestElement.due_date = datetime.today()
         self.alertListTestElement.location = PointField(null=True, default=None, srid=4326)
         self.alertListTestElement.objects = GeoManager()
+        self.alertListTestElement.city = self.DUMMY_ALERT_TITLE
         self.alertListTestElement.Resolue = True
         self.alertListTestElement.Encours = False
         self.alertListTestElement.list = self.alertList
@@ -42,6 +44,7 @@ class AlertTestCase(TestCase):
         new_alert.due_date = datetime.today()
         new_alert.location = PointField(null=True, default=None, srid=4326)
         new_alert.objects = GeoManager()
+        new_alert.city = 'Saint-Louis'
         new_alert.Resolue = True
         new_alert.Encours = False
         new_alert.list = self.alertList

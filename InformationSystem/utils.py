@@ -2,8 +2,10 @@ from django.db import models
 import matplotlib.pyplot as plt
 import base64
 from io import BytesIO
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
-
 
 
 def get_graph():
@@ -40,7 +42,7 @@ def plot_view(n):
     data = np.random.randn(1000)
     fig, ax = plt.subplots()
     n, bins, patches = ax.hist(data, bins=50, density=True, histtype='step', cumulative=-1)
-    plt.figure(figsize=(5, 5))
+    plt.figure(figsize=(4, 4))
     plt.title("Frequency of not sécurity")
     plt.plot(n)
     plt.xlabel('Title')
@@ -52,7 +54,13 @@ def plot_view(n):
     return figdata_png
     #return render(request, 'plot.html', {'figdata_png':figdata_png})
 
+
 def get_plot(x,y):
+
+    #ax = plt.figure().add_subplot(111, projection='3d')
+
+    # Create the scatter plot
+    #ax.scatter(x, y, z)
     plt.switch_backend('AGG')
     plt.figure(figsize=(5,5))
     plt.title('Sensitive area')
@@ -60,12 +68,17 @@ def get_plot(x,y):
     plt.xticks(rotation=45)
     plt.xlabel('Location')
     plt.ylabel('Title')
+    #ax.set_zlabel('Location')
     plt.tight_layout()
     graph=get_graph()
     return graph
 
 
 def get_plot2(X,Y):
+    #ax = plt.figure().add_subplot(111, projection='3d')
+
+    # Create the scatter plot
+   # ax.scatter(X,Y,Z)
     plt.switch_backend('AGG')
     plt.figure(figsize=(5,5))
     plt.title('Sensitive periode')
@@ -73,6 +86,7 @@ def get_plot2(X,Y):
     plt.xticks(rotation=45)
     plt.xlabel('Date')
     plt.ylabel('Title')
+    #ax.set_zlabel('Date')
     plt.tight_layout()
     graph=get_graph()
     return graph

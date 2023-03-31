@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'private_storage',
     'user_management',
     'matplotlib',
+    'geopy',
+
 
 ]
 
@@ -147,7 +149,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 LEAFLET_CONFIG = {
-    'DEFAULT_CENTER': (13, 4),
+    'DEFAULT_CENTER': ( 14.497401, -14.452362),
     'DEFAULT_ZOOM': 1,
     'MAX_ZOOM': 20,
     'MIN_ZOOM': 3,

@@ -153,9 +153,11 @@ h1 .subtitle {
 
 /*     General overwrite     */
 body,
-.wrapper {
-    min-height: 100vh;
-    position: relative;
+.row {
+    /*min-height: 100vh;
+    position: relative;*/
+    height: 100px;
+    margin-left: 30px;
 }
 
 body {
@@ -1735,7 +1737,7 @@ fieldset[disabled] .btn-neutral.active {
 }
 
 .navbar.fixed {
-    width: calc(100% - 100px);
+    width: calc(100% - 50%);
     right: 0;
     left: auto;
     border-radius: 0;
@@ -2447,61 +2449,61 @@ fieldset[disabled] .btn-neutral.active {
 }
 
 .ct-label.ct-horizontal.ct-start {
-    -webkit-box-align: flex-end;
+    webkit-box-align: flex-end;
     -webkit-align-items: flex-end;
-    -ms-flex-align: flex-end;
+    ms-flex-align: flex-end;
     align-items: flex-end;
-    -webkit-box-pack: flex-start;
+    webkit-box-pack: flex-start;
     -webkit-justify-content: flex-start;
-    -ms-flex-pack: flex-start;
+    ms-flex-pack: flex-start;
     justify-content: flex-start;
     text-align: left;
     text-anchor: start;
 }
 
 .ct-label.ct-horizontal.ct-end {
-    -webkit-box-align: flex-start;
+    webkit-box-align: flex-start;
     -webkit-align-items: flex-start;
-    -ms-flex-align: flex-start;
+    ms-flex-align: flex-start;
     align-items: flex-start;
-    -webkit-box-pack: flex-start;
+    webkit-box-pack: flex-start;
     -webkit-justify-content: flex-start;
-    -ms-flex-pack: flex-start;
+    ms-flex-pack: flex-start;
     justify-content: flex-start;
     text-align: left;
     text-anchor: start;
 }
 
 .ct-label.ct-vertical.ct-start {
-    -webkit-box-align: flex-end;
+    webkit-box-align: flex-end;
     -webkit-align-items: flex-end;
-    -ms-flex-align: flex-end;
+    ms-flex-align: flex-end;
     align-items: flex-end;
-    -webkit-box-pack: flex-end;
+    webkit-box-pack: flex-end;
     -webkit-justify-content: flex-end;
-    -ms-flex-pack: flex-end;
+    ms-flex-pack: flex-end;
     justify-content: flex-end;
     text-align: right;
     text-anchor: end;
 }
 
 .ct-label.ct-vertical.ct-end {
-    -webkit-box-align: flex-end;
+    webkit-box-align: flex-end;
     -webkit-align-items: flex-end;
-    -ms-flex-align: flex-end;
+    ms-flex-align: flex-end;
     align-items: flex-end;
-    -webkit-box-pack: flex-start;
+    webkit-box-pack: flex-start;
     -webkit-justify-content: flex-start;
-    -ms-flex-pack: flex-start;
+    ms-flex-pack: flex-start;
     justify-content: flex-start;
     text-align: left;
     text-anchor: start;
 }
 
 .ct-chart-bar .ct-label.ct-horizontal.ct-start {
-    -webkit-box-align: flex-end;
+    webkit-box-align: flex-end;
     -webkit-align-items: flex-end;
-    -ms-flex-align: flex-end;
+    ms-flex-align: flex-end;
     align-items: flex-end;
     -webkit-box-pack: center;
     -webkit-justify-content: center;
@@ -2512,9 +2514,9 @@ fieldset[disabled] .btn-neutral.active {
 }
 
 .ct-chart-bar .ct-label.ct-horizontal.ct-end {
-    -webkit-box-align: flex-start;
+    webkit-box-align: flex-start;
     -webkit-align-items: flex-start;
-    -ms-flex-align: flex-start;
+    ms-flex-align: flex-start;
     align-items: flex-start;
     -webkit-box-pack: center;
     -webkit-justify-content: center;
@@ -2525,26 +2527,26 @@ fieldset[disabled] .btn-neutral.active {
 }
 
 .ct-chart-bar.ct-horizontal-bars .ct-label.ct-horizontal.ct-start {
-    -webkit-box-align: flex-end;
+    webkit-box-align: flex-end;
     -webkit-align-items: flex-end;
-    -ms-flex-align: flex-end;
+    ms-flex-align: flex-end;
     align-items: flex-end;
-    -webkit-box-pack: flex-start;
+    webkit-box-pack: flex-start;
     -webkit-justify-content: flex-start;
-    -ms-flex-pack: flex-start;
+    ms-flex-pack: flex-start;
     justify-content: flex-start;
     text-align: left;
     text-anchor: start;
 }
 
 .ct-chart-bar.ct-horizontal-bars .ct-label.ct-horizontal.ct-end {
-    -webkit-box-align: flex-start;
+    webkit-box-align: flex-start;
     -webkit-align-items: flex-start;
-    -ms-flex-align: flex-start;
+    ms-flex-align: flex-start;
     align-items: flex-start;
-    -webkit-box-pack: flex-start;
+    webkit-box-pack: flex-start;
     -webkit-justify-content: flex-start;
-    -ms-flex-pack: flex-start;
+    ms-flex-pack: flex-start;
     justify-content: flex-start;
     text-align: left;
     text-anchor: start;
@@ -2555,9 +2557,9 @@ fieldset[disabled] .btn-neutral.active {
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
-    -webkit-box-pack: flex-end;
+    webkit-box-pack: flex-end;
     -webkit-justify-content: flex-end;
-    -ms-flex-pack: flex-end;
+    ms-flex-pack: flex-end;
     justify-content: flex-end;
     text-align: right;
     text-anchor: end;
@@ -2568,9 +2570,9 @@ fieldset[disabled] .btn-neutral.active {
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
-    -webkit-box-pack: flex-start;
+    webkit-box-pack: flex-start;
     -webkit-justify-content: flex-start;
-    -ms-flex-pack: flex-start;
+    ms-flex-pack: flex-start;
     justify-content: flex-start;
     text-align: left;
     text-anchor: end;
@@ -3273,7 +3275,6 @@ fieldset[disabled] .btn-neutral.active {
     }
     body > .navbar-collapse.collapse {
         display: none !important;
-
     }
     .card form [class*="col-"] {
         padding: 6px;
@@ -3336,7 +3337,7 @@ fieldset[disabled] .btn-neutral.active {
         left: auto;
         z-index: 1032;
         visibility: visible;
-        background-color: #999999;
+        background-color: #999;
         overflow-y: visible;
         border-top: none;
         text-align: left;
