@@ -1,8 +1,8 @@
 from django.contrib.gis import admin
 from django.shortcuts import render
-from InformationSystem.models import (Alert, AlertList, counties, PoliceProfile, AuthorityProfile, GendarmProfile, FiremanProfile, RescuerProfile, OngProfile)
+from .forms import AlertCreateForm
+from InformationSystem.models import Alert, AlertList, counties, PoliceProfile, AuthorityProfile, GendarmProfile, FiremanProfile, RescuerProfile, OngProfile
 from leaflet.admin import LeafletGeoAdmin
-
 
 
 class AlertInline(admin.TabularInline):
@@ -17,13 +17,15 @@ class AlertListAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Alert)
-class AlertAdmin(LeafletGeoAdmin ):
-    list_display = ('title', 'autor', 'phone', 'due_date', 'location', 'Resolue', 'Encours')
+
+class AlertCreateAdmin(LeafletGeoAdmin):
+    list_display = ('title', 'autor', 'phone', 'due_date', 'city', 'location', 'Resolue', 'Encours')
+    Form = AlertCreateForm
     list_filter = ('due_date', 'Resolue', 'Encours')
     search_fields = ('title',)
-# admin.site.register(Alert, AlertAdmin)
 
+
+admin.site.register(Alert, AlertCreateAdmin)
 
 
 class CountiesAdmin(LeafletGeoAdmin):

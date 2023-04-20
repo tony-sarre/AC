@@ -14,7 +14,7 @@ urlpatterns = [
     path("dash_user/", views.incident, name="dash_user"),
     path("first/", views.first, name="index"),
     path("loginC/", views.User_profile, name="loginC"),
-    path("login/", views.login, name="login"),
+    path("", views.login, name="login"),
     path("login/", views.logout, name="logout"),
     path("Police_Profle/", views.Police_profile, name="Police_profile"),
     path("Gendarm_profile/", views.Gendarm_profile, name="Gendarm_profile"),
@@ -27,6 +27,10 @@ urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard"),
     path("user/", views.user, name="user"),
     path("table/", views.table, name="table"),
+    path("add_alert/",views.add_alert, name="add_alert"),
+    path('update_alert/<str:pk>/', views.update_alert, name="update_alert"),
+    path('delete_alert/<str:pk>/', views.delete_alert, name="delete_alert"),
+    path('alert_detail/<str:pk>/', views.alert_detail, name="alert_detail"),
     path("template/", views.template, name="template"),
     path("typography/", views.typography, name="typography"),
     path("notifications/", views.notifications, name="notifications"),
@@ -39,7 +43,10 @@ urlpatterns = [
     path('Alert/', views.Alert, name= 'Alert'),
     path('save/<int:id>/', views.save, name='save'),
     path('print/<int:id>/', views.print, name='print'),
-    path('Alert/<int:id>/', views.read, name='read'),
+    path('number_alerts/<str:pk>/', views.number_alert, name="number_alert"),
+    path('receive_alerts/<str:pk>/', views.receive_alerts, name="receive_alerts"),
+    path('resolue/<str:pk>/', views.Resolue, name="Resolue"),
+    #path('Alert/<int:id>/', views.read, name='read'),
 
 ]
 

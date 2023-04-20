@@ -1,8 +1,7 @@
-<!doctype html>
-<html lang="en">
 {% load static %}
 {% load leaflet_tags %}
-
+<!doctype html>
+<html lang="en">
   <head>
 
       {%leaflet_js%}
@@ -43,56 +42,104 @@
 	  <script type="text/javascript" src="{% static 'js/easy-button.js' %}" ></script>
       <script type="text/javascript" src="{% static 'routing/leaflet-routing-machine.js' %}" ></script>
      <script src="{% static 'js/map.js' %}" type="text/javascript"></script>
+
+            <style type="text/css">
+
+
+        /*Align the title to the center of the page*/
+.table{
+	font-size: 13px;
+	text-align: center;
+	width: 95%;
+	margin: auto;
+	text-align: center;
+}
+
+/*Make alternating colors for the table rows*/
+.table tr:nth-child(odd){
+	background: #B8CAE4
+}
+
+.table tr:nth-child(even){
+	background: #dae5f4
+}
+
+th {
+  background-color: #337ab7;
+  color: white;
+}
+.display_table{
+	border-bottom-right-radius: 20px;
+	/*border-bottom-left-radius: 20px;*/
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-bottom: 20px;
+	box-shadow: 12px 12px 20px 6px #2e6da4;
+}
+.header {
+    font-family: helvetica;
+    color: #337ab7;
+    font-size: 50px;
+    text-align: center;
+    width: 100%;
+    text-shadow: 6px 6px 6px #c9c6c6;
+    display: block;
+    font-weight: bolder;
+}
+
+	</style>
 </head>
 <body>
 
 {% include 'nave.html' %}
-        <div class="content" style="margin-left: 250px; margin-top: 60px">
-            <div class="container-fluid">
+       <main role="main" class="container"  style="margin-left: 150px; margin-top: 30px">
+        <div class="jumbotron">
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="header">
-                                <h4 class="title">{{ liste_alert.name}}</h4>
-                                <p class="category">All alerts resolved</p>
-                            </div>
-                            <div class="content table-responsive table-full-width">
-                                <table class="table table-hover table-striped">
-                             <thead>
-              <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Autors</th>
-                <th scope="col">Phone of plantif</th>
-                  <th scope="col">Date</th>
-                  <th scope="col">Location</th>
-                  <th scope="col">City_Name</th>
-                <th scope="col">Resolve</th>
-                <th scope="col">In progess</th>
-                   <th scope="col">Save</th>
-                <th scope="col">Print</th>
-                   <th scope="col">Notify</th>
 
+                                 <div class="header">List of Alerts: Resolved</div>
+
+
+                   <div class="display_table" style="font-size: 15px">
+               <table class='table'>
+                  <thead>
+                  <tr>
+                      <th scope="col">Count</th>
+                     <!-- <th scope="col">Lists</th>
+                    <th scope="col">Autors</th>-->
+                      <th scope="col">Title</th>
+                    <th scope="col">Phone</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Location</th>
+                      <th scope="col">City_Name</th>
+                    <th scope="col">Resolve</th>
+                    <th scope="col">In progess</th>
+                      <th scope="col">Last Updated</th>
 
             </tr>
         </thead>
 
         <tbody>
-        {% for Alert in liste_alert %}
-            <tr>
+        {% for Alert in queryset %}
+            {% if Alert.Resolue %}
 
-                <td>{{ Alert.title }}</td>
-                <td>{{ Alert.autor}}</td>
-                <td>{{ Alert.phone }}</td>
-                 <td>{{ Alert.due_date }}</td>
-                <td>{{ Alert.location }}</td>
-                <td>{{ Alert.city }}</td>
-                <td>{{ Alert.Resolue}}</td>
-                <td>{{ Alert.Encours }}</td>
-                <td>[<a href="{% url 'save' Alert.id %}">Save</a>]</td>
-                <td>[<a href="{% url 'print' Alert.id %}">Print</a>]</td>
-                <td>[<a href="{% url 'read' Alert.id %}">read</a>]</td>
+                <tr>
+                     <td>{{forloop.counter }}</td>
 
+                    <td>{{ Alert.title }}</td>
+                    <td>{{ Alert.phone }}</td>
+                     <td>{{ Alert.due_date }}</td>
+                    <td>{{ Alert.location }}</td>
+                    <td>{{ Alert.city }}</td>
+                    <td>{{ Alert.Resolue}}</td>
+                    <td>{{ Alert.Encours }}</td>
+                   <td>{{ Alert.last_update}}</td>
             </tr>
+            {% endif %}
+
+
         {% endfor %}
       <!--  <div class="progress-bar" style="height: 200px; width: 20px;">
   <div class="progress" style="height: 50%; background-color: grey;"></div>
@@ -109,47 +156,44 @@
 
                     <div class="col-md-12">
                         <div class="card card-plain">
-                            <div class="header">
-                                <h4 class="title">{{ liste_alert.name}}</h4>
-                                <p class="category">All alerts unresolved</p>
-                            </div>
-                            <div class="content table-responsive table-full-width">
-                                <table class="table table-hover">
-                                    <thead>
-              <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Autors</th>
-                <th scope="col">Phone of plantif</th>
-                  <th scope="col">Date</th>
-                  <th scope="col">Location</th>
-                  <th scope="col">City_Name</th>
-                <th scope="col">Resolve</th>
-                <th scope="col">In progess</th>
-                   <th scope="col">Save</th>
-                <th scope="col">Print</th>
-                   <th scope="col">Notify</th>
+                            <div class="header">List of Alerts: Unresolved</div>
 
+
+                   <div class="display_table" style="font-size: 15px">
+               <table class='table'>
+                  <thead>
+                  <tr>
+                      <th scope="col">Count</th>
+                     <!-- <th scope="col">Lists</th>
+                    <th scope="col">Autors</th>-->
+                      <th scope="col">Title</th>
+                    <th scope="col">Phone</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Location</th>
+                      <th scope="col">City_Name</th>
+                    <th scope="col">Resolve</th>
+                    <th scope="col">In progess</th>
+                      <th scope="col">Last Updated</th>
 
             </tr>
         </thead>
 
         <tbody>
-        {% for Alert in liste_alert %}
-            <tr>
+        {% for Alert in queryset %}
+            {% if Alert.Encours %}
+             <tr>
+                     <td>{{forloop.counter }}</td>
 
-                <td>{{ Alert.title }}</td>
-                <td>{{ Alert.autor}}</td>
-                <td>{{ Alert.phone }}</td>
-                 <td>{{ Alert.due_date }}</td>
-                <td>{{ Alert.location }}</td>
-                <td>{{ Alert.city }}</td>
-                <td>{{ Alert.Resolue}}</td>
-                <td>{{ Alert.Encours }}</td>
-                <td>[<a href="{% url 'save' Alert.id %}">Save</a>]</td>
-                <td>[<a href="{% url 'print' Alert.id %}">Print</a>]</td>
-                <td>[<a href="{% url 'read' Alert.id %}">read</a>]</td>
-
+                    <td>{{ Alert.title }}</td>
+                    <td>{{ Alert.phone }}</td>
+                     <td>{{ Alert.due_date }}</td>
+                    <td>{{ Alert.location }}</td>
+                    <td>{{ Alert.city }}</td>
+                    <td>{{ Alert.Resolue}}</td>
+                    <td>{{ Alert.Encours }}</td>
+                   <td>{{ Alert.last_update}}</td>
             </tr>
+            {%endif%}
         {% endfor %}
       <!--  <div class="progress-bar" style="height: 200px; width: 20px;">
   <div class="progress" style="height: 50%; background-color: grey;"></div>
@@ -162,15 +206,12 @@
                         </div>
                     </div>
 
-
-                </div>
-            </div>
         </div>
+      </div>
 
-
-
+  </main>
 </body>
-{% include 'footer.html' %}
+
           <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
           <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
           <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

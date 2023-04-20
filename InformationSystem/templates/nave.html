@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load leaflet_tags %}
+  <head>
+
+      {%leaflet_js%}
+      {%leaflet_css%}
+      <meta charset="utf-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <meta name="description" content="Free HTML5 Template by FREEHTML5.CO" />
+	  <meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
+	  <meta name="author" content="FREEHTML5.CO" />
+
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <link rel="stylesheet" type="text/css" href="{% static 'routing/leaflet-routing-machine.css' %}">
+	 <link rel="stylesheet" type="text/css" href="{% static 'css/easy-button.css' %}">
+	 <link rel="stylesheet" type="text/css" href="{% static 'leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css' %}">
+
+      <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.ico'%}">
+      <!-- Bootstrap core CSS     -->
+    <link href="{% static 'assets/css/bootstrap.min.css'%}" rel="stylesheet" />
+
+    <!-- Animation library for notifications   -->
+    <link href="{% static 'assets/css/animate.min.css'%}" rel="stylesheet"/>
+
+    <!--  Light Bootstrap Table core CSS    -->
+    <link href="{% static 'assets/css/light-bootstrap-dashboard.css'%}" rel="stylesheet"/>
+
+      <!--  CSS for Demo Purpose, don't include it in your project     -->
+    <link href="{%static 'assets/css/demo.css'%}" rel="stylesheet" />
+
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <link href="{% static 'assets/css/pe-icon-7-stroke.css'%}" rel="stylesheet" />
+
+      <script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
+	  <script type="text/javascript" src="{% static 'leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js' %}" ></script>
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	  <script type="text/javascript" src="{% static 'js/easy-button.js' %}" ></script>
+      <script type="text/javascript" src="{% static 'routing/leaflet-routing-machine.js' %}" ></script>
+     <script src="{% static 'js/map.js'%}" type="text/javascript"></script>
+</head>
+<body>
+<div class="container-fluid" style="width: 100%; margin-left: -42px" >
+    <div class="sidebar" data-color="purple" data-image="{% static 'assets/img/sidebar-5.jpg' %}">
+
+    <!--
+
+        Tip 1: you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple"
+        Tip 2: you can also add an image using data-image tag
+
+    -->
+
+    	<div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="http://www.alertcriminal.com" class="simple-text">
+                    Alert Criminal
+                </a>
+            </div>
+
+            <ul class="nav">
+                <li class="a">
+                    <a href="{% url 'dashboard' %}">
+                        <i class="pe-7s-graph"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li >
+                    <a href="{% url 'user' %}">
+                        <i class="pe-7s-user"></i>
+                        <p>User Profile</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'table' %}">
+                        <i class="pe-7s-note2"></i>
+                        <p>Alert List</p>
+                    </a>
+                </li>
+                <li >
+                    <a href="{% url 'typography' %}">
+                        <i class="pe-7s-news-paper"></i>
+                        <p>Analyse</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'icons' %}">
+                        <i class="pe-7s-science"></i>
+                        <p>Setting</p>
+                    </a>
+                </li>
+                <li >
+                    <a href="{% url 'maps' %}">
+                        <i class="pe-7s-map-marker"></i>
+                        <p>Maps</p>
+                    </a>
+                </li>
+                <li >
+                    <a href="{% url 'notifications' %}">
+                        <i class="pe-7s-bell"></i>
+                        <p>Notifications</p>
+                    </a>
+                </li>
+				<li class="active-pro">
+                    <a href="{% url 'upgrade' %}">
+                        <i class="pe-7s-rocket"></i>
+                        <p>Upgrade to PRO</p>
+                    </a>
+                </li>
+            </ul>
+    	</div>
+    </div>
+
+               <div class="main-panel" style="width: 73%; margin-left: 195px;margin-bottom: -100px">
+            <nav class=" navbar-default navbar-expand-lg fixed-top" style="background-color:#FFFFFF; margin-left: 260px">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand  active" href="{% url 'home' %}">Home</a>
+                    </div>
+                <div class="collapse navbar-collapse" style="height: 50px; margin-top: 0; margin-left: 0">
+                    <ul class="nav navbar-nav navbar-left" style="height: 50px; margin-top: 0; margin-left: 0">
+                        <li>
+                            <a href="#" class="dropdown-toggle" style="height: 50px; margin-top: 0; margin-left: 0" data-toggle="dropdown">
+                                <i class="fa fa-dashboard" style="height: 50px; margin-top: 0; margin-left: 0"></i>
+								<p class="hidden-lg hidden-md" style="height: 50px; margin-top: 0; margin-left: 0">Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="dropdown" style="height: 50px">
+                              <a href="{% url 'notifications' %}" class="dropdown-toggle" style="height: 50px; margin-top: 0px" data-toggle="dropdown">
+                                    <i class="fa fa-globe" style="height: 50px"></i>
+                                    <b class="caret hidden-lg hidden-md" style="height: 50px; margin-top: 0px"></b>
+									<p class="hidden-lg hidden-md" style="height: 50px; margin-top: 0px">
+										5 Notifications
+										<b class="caret" style="height: 50px; margin-top: 0px"></b>
+									</p>
+                              </a>
+                              <ul class="dropdown-menu" style="height: 50px; margin-top: 0px">
+                                <li><a href="#">Notification 1</a></li>
+                                <li><a href="#">Notification 2</a></li>
+                                <li><a href="#">Notification 3</a></li>
+                                <li><a href="#">Notification 4</a></li>
+                                <li><a href="#">Another notification</a></li>
+                              </ul>
+                        </li>
+                        <li>
+                           <a href="" style="height: 50px; margin-top: 0px">
+                                <i class="fa fa-search"></i>
+								<p class="hidden-lg hidden-md">Search</p>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right" style="height: 50px; margin-top: 0px">
+                        <li>
+                           <a href="">
+                               <p>Welcome, {{ user.username }}!</p>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                              <a href="#"  data-toggle="dropdown" style="height: 50px; margin-top: 0px">
+                                   <p>
+
+										<b class="caret" style="height: 50px; margin-top: 0px"></b>
+									</p>
+
+                              </a>
+                              <ul class="dropdown-menu" style="height: 50px; margin-top: 0px">
+                                <li><a href="#">Profile</a></li>
+                                <li><a href="#">Companie</a></li>
+                                <li><a href="#">Upgrade</a></li>
+                                <li><a href="#">Help</a></li>
+                                <li><a href="#">Settings</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{% url 'logout' %}">Logout</a></li>
+                              </ul>
+                        </li>
+                        <li>
+                            <a href="{% url 'logout' %}" style="height: 50px; margin-top: 0px">
+                                <p>Log out</p>
+                            </a>
+                        </li>
+						<!--<li class="separator hidden-lg" style="height: 50px; margin-top: 0px"></li>-->
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        </div>
+    </div>
+</body>
+</html>

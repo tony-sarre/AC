@@ -54,38 +54,51 @@
 
 {% block content %}
        <div class="row" id="map2" style="height: 300px; margin-top: 30px;margin-left: 100px; width: 800px">{% leaflet_map "gis"  callback="window.our_layers"%}</div>
+{% endblock %}
+ <main role="main" class="container" style="margin-top: 50px" >
+<div class="jumbotron">
+<a href="{% url 'number_alert' queryset.id %}"><div class='btn btn-danger'>Numer of Alert</div></a>
+<a href="{% url 'receive_alerts' queryset.id %}"><div class='btn btn-primary'>RECEIVED by</div></a>
+        <br><br>
+        <div class="display_table">
+          <table class='table'>
+                  <tr>
 
-<div class="row" style="margin-left: 100px;margin-top: 30px">
-   <div><p>Read information :</p><br/></div>
-<div style="margin-bottom: 5px;"><p >vol</p>
-<br/></div>
-<div style="margin-bottom: 5px;"><p >auteur inconnu </p>
-<br/></div>
-<div style="margin-bottom: 5px;"><p >Koumpentoum </p>
-<br/></div>
-<div style="margin-bottom: 0px;"><p >En cours de traitement </p></div>
- <button type="submit" class="btn btn-info btn-fill pull-right">Save</button>
- <button type="submit" class="btn btn-info btn-fill pull-right">Back</button>
-{% for Alert in liste_alert %}
-    <p>{{ Alert.title }} </p>
-    {{ Alert.title }}
-    {{ Alert.autor}}
-    {{ Alert.phone }}
-    {{ Alert.due_date }}
-    {{ Alert.location }}
-    {{ Alert.Resolue}}
-    {{ Alert.Encours }}
+                      <th scope="col">Title</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Location</th>
+                      <th scope="col">City_Name</th>
+                       <th scope="col">Number Alerts</th>
+                      <th scope="col">Received</th>
+                      <th scope="col">Last Updated</th>
+                      <th scope="col">Resolve</th>
+                    <th scope="col">In progess</th>
 
-{% endfor %}
+                  </tr>
+                  <tr>
+                      <td>{{ queryset.title}}</td>
+                     <td>{{ queryset.due_date }}</td>
+                    <td>{{ queryset.location }}</td>
+                    <td>{{ queryset.city }}</td>
+                      <td>{{ queryset.number_alerts }}</td>
+                      <td>{{ queryset.receive_by }}</td>
+                   <td>{{ queryset.last_update}}</td>
+                      <td>{{ queryset.Resolue}}</td>
+                    <td>{{ queryset.Encours }}</td>
+
+                  </tr>
+          </table>
+        </div>
+
     </div>
-
+ </main>
       <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/leaflet.extra-markers/dist/js/leaflet.extra-markers.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.extra-markers/dist/css/leaflet.extra-markers.min.css"/>
 
-{% endblock %}
+
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>

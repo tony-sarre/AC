@@ -53,6 +53,9 @@ INSTALLED_APPS = [
     'user_management',
     'matplotlib',
     'geopy',
+    'crispy_forms',
+    'crispy_bootstrap4',
+
 
 
 ]
@@ -181,3 +184,6 @@ CSRF_TRUSTED_ORIGINS = ['https://your-domain.com']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 GDAL_LIBRARY_PATH = r'C:\OSGeo4W\bin\gdal305.dll'
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

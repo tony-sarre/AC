@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse, JsonResponse
+import csv
 from django.contrib.auth import authenticate, login as dj_login, logout
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -10,13 +11,14 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
 from django.core.serializers import serialize
-from django.http import HttpResponse, JsonResponse
 
 from InformationSystem.models import Alert, AlertList, counties, UserProfile, AuthorityProfile, PoliceProfile,GendarmProfile,OngProfile, FiremanProfile, RescuerProfile
 from InformationSystem.serializers import AlertSerializer, AlertListSerializer, AlertListDetailSerializer
 from .utils import get_plot, get_plot2, generate_pie_chart, plot_view
 #from location_field.functions import reverse_geocode
-from .forms import IncidentForm, UserProfileAdmin, PoliceProfileAdmin, OngProfileAdmin,FiremanProfileAdmin, GendarmProfileAdmin, RescuerProfileAdmin, AuthorityProfileAdmin, LoginForm
+from .forms import IncidentForm, UserProfileAdmin, PoliceProfileAdmin, OngProfileAdmin, FiremanProfileAdmin, \
+    GendarmProfileAdmin, RescuerProfileAdmin, AuthorityProfileAdmin, LoginForm, AlertCreateForm, AlertSearchForm, \
+    AlertUpdateForm, NumberAlertForm, ReceiveForm, ResolueForm, EncoursForm
 import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
@@ -25,7 +27,26 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.contrib import messages
 from geopy.geocoders import Nominatim
-from django.http import JsonResponse
+import joblib
+
+
+def predict_crime(request):
+    # load the saved model
+    model = joblib.load('AlertList')
+
+    # get the input data from the request
+    input_data = request.GET
+
+    # convert the input data into a format suitable for the model
+    # e.g., convert categorical data into numerical data
+
+    # make a prediction using the model
+    prediction = model.predict(input_data)
+
+    # return the prediction as a JSON response
+    return JsonResponse({'prediction': prediction})
+
+
 
 def login(request):
     if request.method == "POST":
@@ -210,15 +231,41 @@ def login_view(request):
 
 def logout(request):
     logout(request)
-    return redirect("first.html")
+    return redirect('index')
 
 
 
 @login_required(login_url="login")
 def home(request):
+    header = 'List of alerts'
+    form = AlertSearchForm(request.POST or None)
+    queryset = Alert.objects.all()
+    context = {
+        "header": header,
+        "queryset": queryset,
+        "form": form,
+    }
+    if request.method == 'POST':
+        queryset = Alert.objects.filter(title__icontains=form['title'].value(),
+                                        due_date__icontains=form['due_date'].value(),
+                                        city__icontains=form['city'].value(),
 
-    list_alert = Alert.objects.all()
-    context = {"liste_alert": list_alert}
+                                        )
+
+        if form['export_to_CSV'].value() == True:
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="List of alert.csv"'
+            writer = csv.writer(response)
+            writer.writerow(['title', 'autor', 'phone', 'due_date', 'city', 'location', 'Resolue', 'Encours'])
+            instance = queryset
+            for alert in instance:
+                writer.writerow([alert.title, alert.autor, alert.phone, alert.due_date, alert.city, alert.location, alert.Resolue, alert.Encours])
+            return response
+        context = {
+            "form": form,
+            "header": header,
+            "queryset": queryset,
+        }
     return render(request, "index.html", context)
 
 
@@ -256,8 +303,128 @@ def dashboard(request):
 def user(request):
     return render(request, "user.html")
 
+
 def table(request):
-    return render(request, "table.html")
+    header = 'List of alerts'
+    queryset = Alert.objects.all()
+    context = {
+        "header": header,
+        "queryset": queryset,
+    }
+
+    return render(request, "table.html", context)
+
+
+def add_alert(request):
+    form = AlertCreateForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Successfully Saved')
+        return redirect('home')
+    context = {
+        "form": form,
+        "title": "Add Alert",
+    }
+    return render(request, "add_alert.html", context)
+
+
+def update_alert(request, pk):
+    queryset = Alert.objects.get(id=pk)
+    form = AlertUpdateForm(instance=queryset)
+    if request.method == 'POST':
+        form = AlertUpdateForm(request.POST, instance=queryset)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Successfully Saved')
+            return redirect('home')
+
+    context = {
+        'form': form
+    }
+    return render(request, 'add_alert.html', context)
+
+
+def delete_alert(request, pk):
+    queryset = Alert.objects.get(id=pk)
+    if request.method == 'POST':
+        queryset.delete()
+        messages.success(request, 'Delete Successfully')
+        return redirect('home')
+    return render(request, 'delete_alert.html')
+
+
+def alert_detail(request, pk):
+    queryset = Alert.objects.get(id=pk)
+    context = {
+        #"title": queryset.title,
+        "queryset": queryset,
+    }
+    return render(request, "main/read.html", context)
+
+
+def number_alert(request, pk):
+    queryset = Alert.objects.get(id=pk)
+    form =NumberAlertForm(request.POST or None, instance=queryset)
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.number_alerts -= 1
+        #instance.issue_by = str(request.user)
+        messages.success(request, " SUCCESSFULLY. " + str(instance.title) + " " + str(instance.city) + "s now left in Store")
+        instance.save()
+
+        return redirect('/alert_detail/'+str(instance.id))
+        # return HttpResponseRedirect(instance.get_absolute_url())
+
+    context = {
+        "title": 'City' + str(queryset.city),
+        "queryset": queryset,
+        "form": form,
+        #"username": 'Issue By: ' + str(request.user),
+    }
+    return render(request, "add_alert.html", context)
+
+
+def receive_alerts(request, pk):
+    queryset = Alert.objects.get(id=pk)
+    form = ReceiveForm(request.POST or None, instance=queryset)
+    if form.is_valid():
+        instance = form.save(commit=False)
+        #instance.receive_by += instance.receive
+        instance.save()
+        messages.success(request, "Received SUCCESSFULLY. " + str(instance.title) + " " + str(instance.city)+"s now in Store")
+
+        return redirect('/alert_detail/'+str(instance.id))
+        # return HttpResponseRedirect(instance.get_absolute_url())
+    context = {
+        "title": 'Receive ' + str(queryset.receive),
+        "instance": queryset,
+        "form": form,
+        "username": 'Receive By: ' + str(request.user),
+    }
+    return render(request, "add_alert.html", context)
+
+
+def Resolue(request, pk):
+    queryset = Alert.objects.get(id=pk)
+    form = ResolueForm(request.POST or None, instance=queryset)
+    Form = EncoursForm(request.POST or None, instance=queryset)
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.save()
+        messages.success(request, "Resolue for " + str(instance.title) + " is updated to " + str(instance.Resolue))
+        return redirect("/home")
+    elif Form.is_valid():
+        instance = Form.save(commit=False)
+        instance.save()
+        messages.success(request, "Encours for " + str(instance.title) + " is updated to " + str(instance.Encours))
+        return redirect("/home")
+
+    context = {
+            "instance": queryset,
+            "form": form,
+            "Form": Form,
+        }
+    return render(request, "add_alert.html", context)
 
 
 def typography(request):
@@ -346,7 +513,6 @@ class AlertListViewSet(viewsets.ModelViewSet):
         return AlertListSerializer
 
 
-
 def county_datasets(request):
     Counties = serialize('geojson', counties.objects.all())
     return HttpResponse(Counties,content_type='json')
@@ -378,9 +544,9 @@ def print(request, id):
     return render(request, 'main/print.html', {'alert': alert})
 
 
-def read(request, id):
-    alert = Alert.objects.get(id=id)
-    return render(request, 'main/read.html', {'alert': alert})
+#def read(request, id):
+ #   alert = Alert.objects.get(id=id)
+  #  return render(request, 'main/read.html', {'alert': alert})
 
 
 def incident(request):
