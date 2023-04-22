@@ -20,7 +20,6 @@
       <link rel="stylesheet" type="text/css" href="{% static 'routing/leaflet-routing-machine.css' %}">
 	 <link rel="stylesheet" type="text/css" href="{% static 'css/easy-button.css' %}">
 	 <link rel="stylesheet" type="text/css" href="{% static 'leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css' %}">
-      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css'%}">
       <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.ico'%}">
       <!-- Bootstrap core CSS     -->
     <link href="{% static 'assets/css/bootstrap.min.css'%}" rel="stylesheet" />
@@ -40,20 +39,51 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel="stylesheet" type="text/css"/>
     <link href="{% static 'assets/css/pe-icon-7-stroke.css'%}" rel="stylesheet" />
 
+      <link href="{% static 'js/jquery-ui-1.13.2/jquery-ui.min.css' %}" rel="stylesheet">
+    <link href="{% static 'js/jquery-ui-1.13.2/jquery-ui.structure.css' %}" rel="stylesheet">
+    <link href="{% static 'js/jquery-ui-1.13.2/jquery-ui.theme.min.css' %}" rel="stylesheet">
+     <link href="{% static 'js/nprogress/nprogress.css' %}" rel="stylesheet">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+    <script src="{% static 'js/jquery-3.6.4.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui-1.13.2/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/myjs.js' %}"></script>
+
+
       <script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
 	  <script type="text/javascript" src="{% static 'leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js' %}" ></script>
 	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 	  <script type="text/javascript" src="{% static 'js/easy-button.js' %}" ></script>
       <script type="text/javascript" src="{% static 'routing/leaflet-routing-machine.js' %}" ></script>
-     <script src="{% static 'js/map.js'%}" type="text/javascript"></script>
-
-
+       <script src="{% static 'js/map.js'%}" type="text/javascript"></script>
+        <script src="{% static 'js/nprogress/nprogress.js' %}"></script>
       <title>Alert Criminel</title>
 
       <style type="text/css">
 		#gis {width: 70%;height:300px;margin-left: 200px;}
 
         /*Align the title to the center of the page*/
+
+.paging-nav {
+  text-align: right;
+  padding-top: 2px;
+}
+
+.paging-nav a {
+  margin: auto 1px;
+  text-decoration: none;
+  display: inline-block;
+  padding: 1px 7px;
+  background: #91b9e6;
+  color: white;
+  border-radius: 3px;
+}
+
+.paging-nav .selected-page {
+  background: #187ed5;
+  font-weight: bold;
+}
 .table{
 	font-size: 13px;
 	text-align: center;
@@ -95,7 +125,7 @@ th {
 }
 .success{
      list-style: none;
-     background-color: #2e6da4;
+     background-color: #1D62F0;
      color: white;
      box-shadow: 12px 12px 12px #e61c66;
      text-align: center;
@@ -110,8 +140,9 @@ th {
   </header>
   <main role="main" class="container" >
    {% if messages %}
-        <ul class="messages">
+        <ul class="messages" style="margin-top: 60px">
                {% for message in messages %}
+
                      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
                {% endfor %}
        </ul>
@@ -119,30 +150,32 @@ th {
       <div class="jumbotron">
 
           <div class="header">List of Alerts</div>
-
-          <div>
-                  <form method="POST" action="">{% csrf_token %}
+            <div class="row" style="height: 500px;margin-left: 100px">
+          <div class="col-sm-2 datetimeinput">
+                  <form method="POST" action="" >{% csrf_token %}
 
                         {{form|crispy}}
-                      <input type="submit" value="Search"/>
-                      <button style=" width: 57px; height: 25px"><a href="{% url 'add_alert' %}"style="color: black; font-size: 11px">Add Alert</a></button>
-                </form>
+                      <input type="submit" value="Search" style=" width: 100%"  class="btn btn-primary mybutton" />
+                       </form>
+              <br><br>
+               <button type="button" class="btn btn-primary mybutton" style=" width: 100%; height: 30px"><a href="{% url 'add_alert' %}"style="color: #1D62F0; font-size: 13px">Add Alert</a></button>
+               </div>
               <br>
-      </div>
 
-         <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
+
+         <div class="col-sm-10">
+                    <!--<div class="col-md-12">
+                        <div class="card">-->
 
         <div class="display_table" style="font-size: 15px">
-               <table class='table'>
+               <table class="table">
                   <thead>
                   <tr>
                       <th scope="col">Count</th>
                      <!-- <th scope="col">Lists</th>
                     <th scope="col">Autors</th>-->
                       <th scope="col">Title</th>
-                    <th scope="col">Phone</th>
+                    <!--<th scope="col">Phone</th>-->
                       <th scope="col">Date</th>
                       <th scope="col">Location</th>
                       <th scope="col">City_Name</th>
@@ -163,31 +196,38 @@ th {
 
                      <td>{{forloop.counter }}</td>
                     <td><a href="{% url 'update_alert' Alert.id %}" style="font-size: 15px; color: #1D62F0">{{ Alert.title }}</a></td>
-                    <td>{{ Alert.phone }}</td>
+                   <!-- <td>{{ Alert.phone }}</td>-->
                      <td>{{ Alert.due_date }}</td>
                     <td>{{ Alert.location }}</td>
                     <td><a href="{% url 'alert_detail' Alert.id %}" style="font-size: 15px; color: #1D62F0">{{ Alert.city }}</a></td>
                            <td>
-                      {% if instance.Resolue%}
+                      {% if Alert.Resolue%}
                       <div style="background-color: green;">
-                          <a href="{% url 'alert_detail' instance.id %}">{{instance.Resolue}}</a></div>
+                          <a href="{% url 'alert_detail' Alert.id %}" style="font-size: 12px">{{Alert.Resolue}}</a></div>
                       {% endif %}
                     </td>
-                    <td> {% if instance.Encours %}
+                    <td> {% if Alert.Encours %}
                           <div style="background-color: red">
-                              <a href="{% url 'alert_detail' instance.id %}">{{instance.Encours}}</a></div>
+                              <a href="{% url 'alert_detail' Alert.id %}" style="font-size: 12px">{{Alert.Encours}}</a></div>
                       {% endif %}</td>
                    <td>{{ Alert.last_update}}</td>
                     <td><a href="{% url 'delete_alert' Alert.id %}"><img src="{% static 'img/bel.png'%}" alt="corbeille" style="width: 25px"/></a></td>
 
+
                 </tr>
             {% endfor %}
             </tbody>
+           <!--     <div id="pagination">
+ <button onclick="previousPage()">Previous</button>
+  <button onclick="nextPage()">Next</button>
+</div>-->
+
         </table>
         </div>
-                        </div>
-                    </div>
+                        <!--</div>
+                    </div>-->
          </div>
+            </div>
       </div>
 
   </main>
@@ -222,8 +262,7 @@ th {
           <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
      <!--   Core JS Files   -->
-        <script src="{%static 'assets/js/jquery.3.2.1.min.js'%}" type="text/javascript"></script>
-        <script src="{%static 'assets/js/bootstrap.min.js'%}" type="text/javascript"></script>
+          <script src="{%static 'assets/js/bootstrap.min.js'%}" type="text/javascript"></script>
 
         <!--  Charts Plugin -->
         <script src="{%static 'assets/js/chartist.min.js'%}"></script>
@@ -239,8 +278,9 @@ th {
 
         <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
         <script src="{%static 'assets/js/demo.js'%}"></script>
-        <script src="{%static 'js/myjs.js'%}"></script>
          <script src="{%static 'js/pager/paging.js'%}"></script>
+        <script src="{%static 'js/myjs.js'%}"></script>
+
 
     <!--premier script-->
 

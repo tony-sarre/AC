@@ -1,5 +1,6 @@
 {% load static %}
 {% load leaflet_tags %}
+{% load crispy_forms_tags %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -93,8 +94,17 @@ th {
 
 {% include 'nave.html' %}
        <main role="main" class="container"  style="margin-left: 150px; margin-top: 30px">
-        <div class="jumbotron">
+       <div class="jumbotron">
 
+
+          <div>
+                  <form method="POST" action="" style="margin-left: 150px; width: 800px">{% csrf_token %}
+
+                        {{form|crispy}}
+                      <input type="submit" value="Search"/>
+                  </form>
+              <br>
+      </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">

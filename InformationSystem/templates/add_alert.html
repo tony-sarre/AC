@@ -43,18 +43,77 @@
      <script src="{% static 'js/map.js'%}" type="text/javascript"></script>
 
     <title>{{ title }}</title>
+
+      <style type="text/css">
+		#gis {width: 70%;height:300px;margin-left: 200px;}
+
+        /*Align the title to the center of the page*/
+.table{
+	font-size: 13px;
+	text-align: center;
+	width: 95%;
+	margin: auto;
+	text-align: center;
+}
+
+/*Make alternating colors for the table rows*/
+.table tr:nth-child(odd){
+	background: #B8CAE4
+}
+
+.table tr:nth-child(even){
+	background: #dae5f4
+}
+
+th {
+  background-color: #337ab7;
+  color: white;
+}
+.display_table{
+	border-bottom-right-radius: 20px;
+	/*border-bottom-left-radius: 20px;*/
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-bottom: 20px;
+	box-shadow: 12px 12px 20px 6px #2e6da4;
+}
+.header {
+    font-family: helvetica;
+    color: #337ab7;
+    font-size: 50px;
+    text-align: center;
+    width: 100%;
+    text-shadow: 6px 6px 6px #c9c6c6;
+    display: block;
+    font-weight: bolder;
+}
+.success{
+     list-style: none;
+     background-color: #05AE0E;
+     color: white;
+     box-shadow: 12px 12px 12px #e61c66;
+     text-align: center;
+ }
+
+	</style>
+
 </head>
 <body>
   {% include 'nave.html' %}
 
   <main role="main" class="container-fluid" style="margin-top: 100px; margin-left: 300px; width: 75%">
-      <h1>Add Alert</h1>
-      <form method="post" action="">{% csrf_token %}
-        {{form|crispy}}
-        <!--<button onclick="getLocation()"> Location</button>-->
-        <input type="submit" value="Save">
-    </form>
-
+      <div class="header">Add Alert</div>
+      <div class="row">
+          <div class="col-sm-10">
+              <div class="display_table">
+                  <form method="post" action="">{% csrf_token %}
+                    {{form|crispy}}
+                    <!--<button onclick="getLocation()"> Location</button>-->
+                    <input class="btn btn-primary" type="submit" value="Save">
+                </form>
+              </div>
+          </div>
+</div>
   </main>
 </body>
          <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

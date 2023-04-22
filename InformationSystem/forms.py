@@ -46,10 +46,11 @@ class AlertUpdateForm(forms.ModelForm):
 
 class AlertSearchForm(forms.ModelForm):
     export_to_CSV = forms.BooleanField(required=False)
+    due_date = forms.DateTimeField(required=False)
 
     class Meta:
         model = Alert
-        fields = ['title', 'due_date', 'city']
+        fields = ['title', 'autor', 'phone', 'due_date', 'city']
 
 
 class NumberAlertForm(forms.ModelForm):

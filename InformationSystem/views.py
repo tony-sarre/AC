@@ -230,9 +230,8 @@ def login_view(request):
 
 
 def logout(request):
-    logout(request)
-    return redirect('index')
 
+    return redirect('login')
 
 
 @login_required(login_url="login")
@@ -307,10 +306,39 @@ def user(request):
 def table(request):
     header = 'List of alerts'
     queryset = Alert.objects.all()
+    form = AlertSearchForm(request.POST or None)
     context = {
         "header": header,
         "queryset": queryset,
     }
+
+    if request.method == 'POST':
+        t = form['title'].value()
+        queryset = Alert.objects.filter(
+            city__icontains=form['city'].value()
+        )
+
+        if (t != ''):
+            queryset = queryset.filter(title_id=t)
+
+        if form['export_to_CSV'].value() == True:
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="Alert History.csv"'
+            writer = csv.writer(response)
+            writer.writerow(['title', 'autor', 'phone', 'due_date', 'city', 'location', 'Resolue', 'Encours'])
+            instance = queryset
+            for alert in instance:
+                writer.writerow(
+                    [alert.title, alert.autor, alert.phone, alert.due_date, alert.city, alert.location, alert.Resolue,
+                     alert.Encours])
+
+                return response
+
+        context = {
+            "form": form,
+            "header": header,
+            "queryset": queryset,
+        }
 
     return render(request, "table.html", context)
 

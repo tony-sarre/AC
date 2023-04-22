@@ -159,10 +159,12 @@
                         </li>
                     </ul>
 
-                    <ul class="nav navbar-nav navbar-right" style="height: 50px; margin-top: 0px">
+                    <ul class="navbar-nav" style="height: 50px; margin-left: 700px; margin-top: -40px">
+                        {% if request.user.is_authenticated %}
                         <li>
-                           <a href="">
-                               <p>Welcome, {{ user.username }}!</p>
+                           <a href="{% url 'logout' %}">
+                               <button class="btn btn-danger">
+                               Welcome, {{ user.username }} | Logout</button>
                             </a>
                         </li>
                         <li class="dropdown">
@@ -179,15 +181,15 @@
                                 <li><a href="#">Upgrade</a></li>
                                 <li><a href="#">Help</a></li>
                                 <li><a href="#">Settings</a></li>
-                                <li class="divider"></li>
-                                <li><a href="{% url 'logout' %}">Logout</a></li>
+                                <li class="#">divider</li>
                               </ul>
                         </li>
+                        {% else %}
                         <li>
-                            <a href="{% url 'logout' %}" style="height: 50px; margin-top: 0px">
-                                <p>Log out</p>
-                            </a>
-                        </li>
+                            <a href="{% url 'login' %}" style="height: 50px; margin-top: 0px">
+                               Login</a></li>
+        {% endif %}
+
 						<!--<li class="separator hidden-lg" style="height: 50px; margin-top: 0px"></li>-->
                     </ul>
                 </div>
