@@ -1,9 +1,17 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, StreamingHttpResponse, HttpResponseServerError
 import csv
+import cv2
+from django.views.decorators import gzip
+import threading
+import base64
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 from django.contrib.auth import authenticate, login as dj_login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 
 from drf_yasg.utils import swagger_auto_schema
 from geopy import Location
@@ -18,7 +26,7 @@ from .utils import get_plot, get_plot2, generate_pie_chart, plot_view
 #from location_field.functions import reverse_geocode
 from .forms import IncidentForm, UserProfileAdmin, PoliceProfileAdmin, OngProfileAdmin, FiremanProfileAdmin, \
     GendarmProfileAdmin, RescuerProfileAdmin, AuthorityProfileAdmin, LoginForm, AlertCreateForm, AlertSearchForm, \
-    AlertUpdateForm, NumberAlertForm, ReceiveForm, ResolueForm, EncoursForm
+    AlertUpdateForm, NumberAlertForm, ReceiveForm, ResolueForm, EncoursForm, PointForm
 import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
@@ -28,6 +36,7 @@ from django.shortcuts import render
 from django.contrib import messages
 from geopy.geocoders import Nominatim
 import joblib
+
 
 
 def predict_crime(request):
@@ -395,7 +404,7 @@ def number_alert(request, pk):
     form =NumberAlertForm(request.POST or None, instance=queryset)
     if form.is_valid():
         instance = form.save(commit=False)
-        instance.number_alerts -= 1
+        instance.number_alerts += 1
         #instance.issue_by = str(request.user)
         messages.success(request, " SUCCESSFULLY. " + str(instance.title) + " " + str(instance.city) + "s now left in Store")
         instance.save()
@@ -587,7 +596,7 @@ def incident(request):
             geolocator = Nominatim(user_agent="InformationSystem")
             location = geolocator.reverse(f"{latitude}, {longitude}")
             address = location.address
-            messages.success(request, f"GPS location: {location.address}")
+            messages.success(request, f"GPS location: {address}")
             #city = location.raw['address']['city']
 
             # Create a new Location object and save it to the database
@@ -596,7 +605,7 @@ def incident(request):
 
     else:
         form = IncidentForm()
-    return render(request, 'dash_user.html', {'form': form})
+    return render(request, 'ca_write.html', {'form': form})
 
 
 #def view_location(request, location_id):
@@ -616,3 +625,54 @@ def long_running_task(request):
 
     # Return the progress as a JSON response
     return JsonResponse({'progress': progress})
+
+
+def camera(request):
+    return render(request, 'camera.html')
+
+
+@csrf_exempt
+def capture(request):
+    if request.method == 'POST':
+        image_data = request.POST.get('image_data')
+        # Process the image data or save it to the server
+        return HttpResponse('Image captured successfully.')
+    else:
+        return HttpResponse('Invalid request method.')
+
+
+@csrf_exempt
+def capture(request):
+    if request.method == 'POST':
+        image_data = request.POST.get('image_data')
+
+        # Decode the image data from base64
+        image_data = image_data.replace('data:image/jpeg;base64,', '')
+        image_data = image_data.replace(' ', '+')
+        image_data = base64.b64decode(image_data)
+
+        # Save the image in the database
+        # Add your code here to save the image to the database
+
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method.'})
+
+
+def images(request):
+    images = []
+
+def formula(request):
+    return render(request, 'dash_user.html')
+
+
+
+def point_create(request):
+    if request.method == 'POST':
+        form = PointForm(request.POST)
+        if form.is_valid():
+            point =Alert(latitude=form.cleaned_data['latitude'], longitude=form.cleaned_data['longitude'])
+            point.save()
+    else:
+        form = PointForm()
+    return render(request, 'main/read.html', {'form': form})

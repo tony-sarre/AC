@@ -11,7 +11,7 @@ router.register('alerts', AlertViewSet)
 router.register('alert-lists', AlertListViewSet)
 
 urlpatterns = [
-    path("dash_user/", views.incident, name="dash_user"),
+    path("dash_user/", views.formula, name="dash_user"),
     path("first/", views.first, name="index"),
     path("loginC/", views.User_profile, name="loginC"),
     path("", views.login, name="login"),
@@ -47,6 +47,10 @@ urlpatterns = [
     path('receive_alerts/<str:pk>/', views.receive_alerts, name="receive_alerts"),
     path('resolue/<str:pk>/', views.Resolue, name="Resolue"),
     #path('Alert/<int:id>/', views.read, name='read'),
+    path('camera/', views.camera, name='camera'),
+    path('ca_write/', views.incident, name='ca_write'),
+    path('capture/', views.capture, name='capture'),
+    path('read/', views.point_create, name='point_create'),
 
 ]
 

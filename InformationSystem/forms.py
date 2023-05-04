@@ -129,7 +129,7 @@ class IncidentForm(forms.Form):
 
 
     name = [
-        ('fill in here', 'fill in here'),
+        ('--------', '---------'),
         ('Agression', 'Agression'),
         ('Viol', 'Viol'),
         ('Omisside', 'Omisside'),
@@ -156,3 +156,8 @@ def post(request):
 
 #class LocationForm(forms.Form):
  #   location = forms.CharField(widget=forms.HiddenInput())
+
+
+class PointForm(forms.Form):
+    latitude = forms.FloatField()
+    longitude = forms.FloatField()

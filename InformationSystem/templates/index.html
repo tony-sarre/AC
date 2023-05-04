@@ -150,7 +150,7 @@ th {
       <div class="jumbotron">
 
           <div class="header">List of Alerts</div>
-            <div class="row" style="height: 500px;margin-left: 100px">
+            <div class="row" style="height: 800px;margin-left: 100px">
           <div class="col-sm-2 datetimeinput">
                   <form method="POST" action="" >{% csrf_token %}
 
@@ -217,10 +217,10 @@ th {
                 </tr>
             {% endfor %}
             </tbody>
-           <!--     <div id="pagination">
- <button onclick="previousPage()">Previous</button>
-  <button onclick="nextPage()">Next</button>
-</div>-->
+     <div id="pagination">
+ <!--<button onclick="previousPage()">Previous</button>
+  <button onclick="nextPage()">Next</button>-->
+</div>
 
         </table>
         </div>
@@ -228,8 +228,13 @@ th {
                     </div>-->
          </div>
             </div>
-      </div>
 
+      </div>
+     <div class="row">
+             {% for image in images %}
+        <img src="data:image/jpeg;base64,{{ image }}" alt="Image">
+    {% endfor %}
+      </div>
   </main>
 
   </body>

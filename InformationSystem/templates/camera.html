@@ -102,14 +102,51 @@ th {
   </head>
 
 <body>
+  {% include 'nave.html' %}
+  <main role="main" class="container-fluid" style="margin-top: 100px; margin-left: 300px; width: 75%">
+      <div class="header">CAMERA</div>
+      <div class="row">
+  <video id="video" width="640" height="480"></video>
+  <button class='btn btn-primary' id="captureButton">Capture</button>
+   <canvas id="canvas" width="640" height="480"></canvas>
 
- <main role="main" class="container" style="margin-top: 200px; margin-left: 300px; width: 50%" >
-<div class="header">Welcome to our alert application</div>
-     <div class="jumbotron">
-<a href="{% url 'camera'%}"><div class='btn btn-danger'>Camera</div></a>
-<a href="{% url 'ca_write'%}"><div class='btn btn-primary'>Formula</div></a>
 </div>
-  </main>
+      <div class="row">
+          {% for image in images %}
+        <img src="data:image/jpeg;base64,{{ image }}" alt="Image">
+    {% endfor %}
+</div>
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const captureButton = document.getElementById('captureButton');
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+                video.play();
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        captureButton.addEventListener('click', () => {
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const imageData = canvas.toDataURL('image/jpeg', 0.5);
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/capture/');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRFToken', csrftoken);
+            xhr.onload = function() {
+                console.log(xhr.responseText);
+            };
+            xhr.send('image_data=' + encodeURIComponent(imageData));
+        });
+    </script> </main>
 </body>
           <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
           <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

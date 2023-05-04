@@ -41,20 +41,21 @@ class AlertList(models.Model):
 
 
 class Alert(models.Model):
-    title = models.CharField(max_length=255, blank=True, null=True)
+    title = models.CharField(max_length=255, blank=True, null=True, choices=title_choice)
     autor = models.CharField(max_length=255, blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
     due_date = models.DateTimeField(auto_now_add=False, auto_now=False, null=False, blank=True)
     location = models.PointField(null=True, default=None, srid=4326)
     objects = GeoManager()
-    #latitude = models.DecimalField(null=True, max_digits=9, decimal_places=6)
-   # longitude = models.DecimalField(null=True, max_digits=9, decimal_places=6)
+    latitude = models.DecimalField(null=True, max_digits=9, decimal_places=6)
+    longitude = models.DecimalField(null=True, max_digits=9, decimal_places=6)
     last_update = models.DateTimeField(auto_now_add=False, auto_now=True)
     Resolue = models.BooleanField(default=False)
     Encours = models.BooleanField(default=False)
     number_alerts = models.IntegerField(blank=True, null=True, default=0)
     receive = models.CharField(max_length=255, blank=True, null=True)
     receive_by = models.CharField(max_length=255, blank=True, null=True)
+    image = models.ImageField(upload_to='images/', default=False, null=True)
 
 
     #attachment = models.FileField(upload_to='public', null=True)
